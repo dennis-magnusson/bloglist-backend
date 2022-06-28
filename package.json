@@ -1,0 +1,33 @@
+{
+  "name": "bloglist",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index.js",
+    "lint": "eslint ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dennis-magnusson/fso2022_bloglist.git"
+  },
+  "author": "Dennis Magnusson",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dennis-magnusson/fso2022_bloglist/issues"
+  },
+  "homepage": "https://github.com/dennis-magnusson/fso2022_bloglist#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "mongoose": "^6.4.1",
+    "node": "^18.4.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.18.0",
+    "nodemon": "^2.0.18"
+  }
+}
