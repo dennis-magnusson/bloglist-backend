@@ -109,3 +109,15 @@ describe('most blogs', () => {
     expect(result).toEqual({ author: 'Robert C. Martin', blogs: 3 })
   })
 })
+
+describe('most likes', () => {
+  test('of one blog is the author and likes of that blog', () => {
+    const result = listHelper.mostLikes(blog)
+    expect(result).toEqual({ author: 'Michael Chan', likes: 7 })
+  })
+
+  test('of many returns the correct author and correct like count', () => {
+    const result = listHelper.mostLikes(blogs)
+    expect(result).toEqual({ author: 'Edsger W. Dijkstra', likes: 17 })
+  })
+})
