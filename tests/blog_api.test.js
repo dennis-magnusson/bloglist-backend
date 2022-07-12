@@ -7,7 +7,7 @@ const Blog = require('../models/blog.js')
 const blog = require('../models/blog.js')
 const exp = require('constants')
 
-describe('Tests', () => {
+describe('Initially saved blogs', () => {
     beforeEach(async () => {
         await Blog.deleteMany({})
         let blogObject = new Blog(helper.initialBlogs[0])
@@ -31,7 +31,9 @@ describe('Tests', () => {
         const response = await api.get('/api/blogs')
         expect(response.body[0].title).toBe('React patterns')
     })
+})
 
+describe('getting specific blogs', () => {
     test('id is defined', async () => {
         const response = await api.get('/api/blogs')
         const id = response.body[0].id
@@ -73,7 +75,24 @@ describe('Tests', () => {
           .expect('Content-Type', /application\/json/)
 
     })
+})
     
+describe('deleting a blog', () => {
+  test('succeeds with status code 204 if id is valid', async () => {
+        const blogsAtStart = await helper.blogsInDatabase()
+        const blogToDelete = blogsAtStart[0]
+  
+        await api
+          .delete(`/api/blogs/${blogToDelete.id}`)
+          .expect(204)
+  
+        const blogsAtEnd = await helper.blogsInDatabase()
+        console.log(blogsAtEnd)
+        expect(blogsAtEnd).toHaveLength(blogsAtStart.length - 1)
+  
+        const contents = blogsAtEnd.map(r => r.title)
+        expect(contents).not.toContain(blogToDelete.title)
+      })
 })
 
 afterAll(() => {
