@@ -5,6 +5,7 @@ const api = supertest(app)
 const helper = require('./test_helper.js')
 const Blog = require('../models/blog.js')
 const blog = require('../models/blog.js')
+const exp = require('constants')
 
 describe('Tests', () => {
     beforeEach(async () => {
@@ -35,6 +36,32 @@ describe('Tests', () => {
         const response = await api.get('/api/blogs')
         const id = response.body[0].id
         expect(id).toBeDefined()
+    })
+
+    test('a blog that is valid can be added', async () => {
+
+        await api
+          .post('/api/blogs')
+          .send(helper.testBlog)
+          .expect(201)
+          .expect('Content-Type', /application\/json/)
+
+        const response = await api.get('/api/blogs')
+        const titles = response.body.map(blog => blog.title)
+
+        expect(response.body).toHaveLength(helper.initialBlogs.length + 1)
+        expect(titles).toContain(helper.testBlog.title)
+    })
+
+    test('likes are 0 for a blog that was created without likes', async () => {
+        
+        await api
+          .post('/api/blogs')
+          .send(helper.blogWithoutLikes)
+
+        const response = await api.get('/api/blogs')
+        const likes = response.body[response.body.length - 1].likes
+        expect(likes).toBe(0)
     })
     
 })
