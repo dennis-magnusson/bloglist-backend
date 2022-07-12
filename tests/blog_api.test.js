@@ -63,6 +63,16 @@ describe('Tests', () => {
         const likes = response.body[response.body.length - 1].likes
         expect(likes).toBe(0)
     })
+
+    test('a blog that is invalid cant be added', async () => {
+
+        await api
+          .post('/api/blogs')
+          .send(helper.invalidBlog)
+          .expect(400)
+          .expect('Content-Type', /application\/json/)
+
+    })
     
 })
 

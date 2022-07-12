@@ -26,8 +26,13 @@ const testBlog = {
     likes: 0
 }
 
+const invalidBlog = {
+    likes: 3
+}
+
 module.exports = {
     initialBlogs,
     blogWithoutLikes,
-    testBlog
+    testBlog,
+    invalidBlog
 }
