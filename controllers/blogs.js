@@ -14,9 +14,11 @@ blogsRouter.post('/', async (request, response) => {
   const decodedToken = jwt.verify(request.token, process.env.SECRET)
 
   // Not sure if this check is required or if jwt.verify() errors are already catched by middleware and suffice
-  if (!token || !decodedToken.id) {
+  if (!request.token || !decodedToken.id) {
     return response.status(401).json({ error: 'token missing or invalid' })
   }
+
+  console.log('decoded token: ', decodedToken)
 
   const user = await User.findById(decodedToken.id)
 
@@ -42,7 +44,17 @@ blogsRouter.post('/', async (request, response) => {
 })
 
 blogsRouter.delete('/:id', async (request, response) => {
-  await Blog.findByIdAndRemove(request.params.id)
+
+  const decodedToken = jwt.verify(request.token, process.env.SECRET)
+
+  const blog = await Blog.findById(request.params.id)
+
+  if (blog.user.toString() !== decodedToken.id.toString()) {
+    return response.status(401).json({ error: 'user does not have permimssion' })
+  }
+
+  await Blog.findByIdAndDelete(blog.id)
+
   response.status(204).end()
 })
 
