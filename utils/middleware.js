@@ -19,13 +19,24 @@ const errorHandler = (error, request, response, next) => {
     return response.status(400).send({ error: 'invalid id format' })
   } else if (error.name === 'ValidationError') {
     return response.status(400).json({ error: error.message })
+  } else if (error.name === 'JsonWebTokenError') {
+    return response.status(401).json({ error: 'invalid or missing token' })
   }
 
   next(error)
 }
 
+const tokenExtractor = (request, response, next) => {
+  const auth = request.get('authorization')
+  request.token = (auth && auth.toLowerCase().startsWith('bearer ')) 
+    ? auth.substring(7)
+    : null
+  next()
+}
+
 module.exports = {
   requestLogger,
   errorHandler,
-  unknownEndpoint
+  unknownEndpoint,
+  tokenExtractor
 }

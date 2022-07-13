@@ -2,12 +2,36 @@
 
 POST http://localhost:3001/api/blogs
 Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImRlbm5pc20iLCJpZCI6IjYyY2ViM2UyYTliMWRhZjVhMDkzY2YwZSIsImlhdCI6MTY1NzcxNjA5NX0.4zTdasU1m8AxxteohRCwyeRzMB4j3GrmKO_BRjYWFB4
 
 {
   "title": "Third Test",
   "author": "Test Blogger",
   "url": "www.blogtest.com",
   "likes": 0
+}
+
+###
+
+POST http://localhost:3001/api/blogs
+Content-Type: application/json
+
+{
+  "title": "Third Test",
+  "author": "Test Blogger",
+  "url": "www.blogtest.com",
+  "likes": 0
+}
+
+###
+
+POST http://localhost:3001/api/users
+Content-Type: application/json
+
+{
+  "username": "root",
+  "name": "Superuser",
+  "password": "rootword"
 }
 
 ###

@@ -1,5 +1,5 @@
+const jwt = require('jsonwebtoken')
 const blogsRouter = require('express').Router()
-const { request } = require('http')
 const Blog = require('../models/blog.js')
 const User = require('../models/user.js')
 
@@ -11,7 +11,14 @@ blogsRouter.get('/', async (request, response) => {
 
 blogsRouter.post('/', async (request, response) => {
 
-  const user = await User.findOne()
+  const decodedToken = jwt.verify(request.token, process.env.SECRET)
+
+  // Not sure if this check is required or if jwt.verify() errors are already catched by middleware and suffice
+  if (!token || !decodedToken.id) {
+    return response.status(401).json({ error: 'token missing or invalid' })
+  }
+
+  const user = await User.findById(decodedToken.id)
 
   const blogWithUser = {
     title: request.body.title,
