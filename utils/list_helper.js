@@ -32,7 +32,7 @@ const mostLikes = (blogs) => {
     return result
   }
   const authorsArr = blogs.reduce(reducer, [])
-  const authors = Object.keys(authorsArr).map(author => ({ author, likes: authorsArr[author]}))
+  const authors = Object.keys(authorsArr).map(author => ({ author, likes: authorsArr[author] }))
   return _.maxBy(authors, author => author.likes)
 }
 

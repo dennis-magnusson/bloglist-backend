@@ -1,4 +1,5 @@
 const blogsRouter = require('express').Router()
+const { request } = require('http')
 const Blog = require('../models/blog.js')
 
 blogsRouter.get('/', async (request, response) => {
@@ -28,6 +29,24 @@ blogsRouter.post('/', async (request, response) => {
 blogsRouter.delete('/:id', async (request, response) => {
   await Blog.findByIdAndRemove(request.params.id)
   response.status(204).end()
+})
+
+blogsRouter.put('/:id', async (request, response) => {
+
+  const blog = {
+    title: request.body.title,
+    likes: request.body.likes,
+    url: request.body.url
+  }
+
+  if (!blog.title || !blog.likes || !blog.url) {
+    return response.status(400).json({ error: 'Invalid or missing parameters' })
+  }
+
+  const id = request.params.id
+  const updatedBlog = await Blog.findByIdAndUpdate(id, blog, { new: true })
+
+  response.json(updatedBlog)
 })
 
 module.exports = blogsRouter
