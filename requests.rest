@@ -1,6 +1,6 @@
 
 
-POST http://localhost:3003/api/blogs
+POST http://localhost:3001/api/blogs
 Content-Type: application/json
 
 {
@@ -12,3 +12,22 @@ Content-Type: application/json
 
 ###
 
+POST http://localhost:3001/api/users
+Content-Type: application/json
+
+{
+  "username": "dennism",
+  "name": "Dennis Magnusson",
+  "password": "passthis"
+}
+
+###
+
+POST http://localhost:3001/api/users
+Content-Type: application/json
+
+{
+  "username": "de",
+  "name": "Dennis Magnusson",
+  "password": "passthis"
+}

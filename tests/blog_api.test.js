@@ -86,7 +86,6 @@ describe('deleting a blog', () => {
       .expect(204)
 
     const blogsAtEnd = await helper.blogsInDatabase()
-    console.log(blogsAtEnd)
     expect(blogsAtEnd).toHaveLength(blogsAtStart.length - 1)
 
     const contents = blogsAtEnd.map(r => r.title)
@@ -101,15 +100,13 @@ describe('editing a blog', () => {
     blogToUpdate.likes = 100
     blogToUpdate.title = 'Updated Title'
 
-    console.log(blogToUpdate)
-
     await api
       .put(`/api/blogs/${blogToUpdate.id}`)
       .send(blogToUpdate)
       .expect(200)
 
     const blogsAtEnd = await helper.blogsInDatabase()
-    console.log(blogsAtEnd)
+
     expect(blogsAtEnd).toHaveLength(blogsAtStart.length)
 
     const contents = blogsAtEnd.map(blog => blog.title)
