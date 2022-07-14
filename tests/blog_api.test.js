@@ -1,17 +1,35 @@
 const mongoose = require('mongoose')
 const supertest = require('supertest')
+const jwt = require('jsonwebtoken')
 const app = require('../app')
 const api = supertest(app)
 const helper = require('./test_helper.js')
 const Blog = require('../models/blog.js')
+const User = require('../models/user')
+
+let token = ''
 
 
 describe('Initially saved blogs', () => {
   beforeEach(async () => {
     await Blog.deleteMany({})
+    await User.deleteMany({})
+
+    // Create user in db
+    const user = await api
+      .post('/api/users')
+      .send(helper.newUser)
+
+    // Get token
+    const login = await api.post('/api/login').send(helper.newUser)
+    token = login.body.token
+
+    // save initial blogs in db
     let blogObject = new Blog(helper.initialBlogs[0])
+    blogObject.user = user.body.id
     await blogObject.save()
     blogObject = new Blog(helper.initialBlogs[1])
+    blogObject.user = user.body.id
     await blogObject.save()
   })
 
@@ -44,6 +62,7 @@ describe('getting specific blogs', () => {
     await api
       .post('/api/blogs')
       .send(helper.testBlog)
+      .set('Authorization', `bearer ${token}`)
       .expect(201)
       .expect('Content-Type', /application\/json/)
 
@@ -69,6 +88,7 @@ describe('getting specific blogs', () => {
 
     await api
       .post('/api/blogs')
+      .set('Authorization', `bearer ${token}`)
       .send(helper.invalidBlog)
       .expect(400)
       .expect('Content-Type', /application\/json/)
@@ -81,8 +101,9 @@ describe('deleting a blog', () => {
     const blogsAtStart = await helper.blogsInDatabase()
     const blogToDelete = blogsAtStart[0]
 
-    await api
+    const result = await api
       .delete(`/api/blogs/${blogToDelete.id}`)
+      .set('Authorization', `bearer ${token}`)
       .expect(204)
 
     const blogsAtEnd = await helper.blogsInDatabase()
