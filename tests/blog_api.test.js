@@ -94,6 +94,17 @@ describe('getting specific blogs', () => {
       .expect('Content-Type', /application\/json/)
 
   })
+
+  test('a blog cannot be added without token', async () => {
+
+    await api
+      .post('/api/blogs')
+      .send(helper.invalidBlog)
+      .expect(401)
+      .expect('Content-Type', /application\/json/)
+
+  })
+  
 })
 
 describe('deleting a blog', () => {
