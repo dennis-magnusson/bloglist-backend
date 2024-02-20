@@ -1,4 +1,4 @@
-# Bloglist CRUD Application Backend API
+# Bloglist backend API
 
 This is the backend API for a Bloglist CRUD application. It is built with Node.js and Express, and uses MongoDB for data storage.
 
