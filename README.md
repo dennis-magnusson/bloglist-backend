@@ -37,12 +37,12 @@ npm install
 
 ### Environment Variables
 
-To run this project, you will need to add the following environment variables to your .env file:
+To run this project, you will need to add the following environment variables to your .env file. Please see the `.env.template` file for detailed instructions:
 
-- MONGODB_URI: Your MongoDB connection string
-- TEST_MONGODB_URI: Your MongoDB connection string used when tests are run
-- SECRET: A secret string for JWT token generation
-- PORT: The port you wish the application to serve
+- `MONGODB_URI`: Your MongoDB connection strin`
+- `TEST_MONGODB_URI`: Your MongoDB connection string used when tests are run
+- `SECRET`: A secret string for JWT token generation
+- `PORT`: `he port you wish the application to serve
 
 ### Running the application
 
